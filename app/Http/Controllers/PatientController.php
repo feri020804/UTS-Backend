@@ -113,4 +113,50 @@ class PatientController extends Controller
             ], 404);
         }
     }
+
+    public function search($name) {
+        $patients = Patient::where('name', 'like', '%' . $name . '%')->get();
+
+        if(!$patients->IsEmpty()){
+            return response()->json([
+                'message' => 'Get Searched resource',
+                'data' => $patients
+            ], 404);
+        }else{
+            return response()->json([
+                'message' => 'Searched Not Found',
+            ]);
+        }
+    }
+    public function positive($name) {
+        $patients = Patient::where('status', 'positive')->get();
+        return response()->json([
+            'massage' => 'Get Positive resource',
+            'total' => $patients->count(),
+            'data' => $patients,
+        ], 200);
+    }
+    public function recovere($name) {
+        $patients = Patient::where('status', 'recovered')->get();
+
+        if(!$patients->IsEmpty()){
+            return response()->json([
+                'message' => 'Get Recovered resource',
+                'total' => $patients->count(),
+                'data' => $patients,
+            ], 200);
+        }
+    }
+    public function dead($name) {
+        $patients = Patient::where('status', 'dead')->get();
+
+
+        if(!$patients->IsEmpty()){
+            return response()->json([
+                'message' => 'Get Recovered resource',
+                'total' => $patients->count(),
+                'data' => $patients,
+            ], 200);
+        }   
+    }
 }
